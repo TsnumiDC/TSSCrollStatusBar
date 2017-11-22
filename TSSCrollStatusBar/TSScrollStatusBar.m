@@ -62,7 +62,6 @@
     self.titleLabel.text = _string?_string:@"";
     [self _layoutSubviews];
     
-    [self.superview bringSubviewToFront:self];
     return YES;
 }
 
@@ -142,8 +141,8 @@
                                              andStayTime:3
                                           andDismissTime:1.0
                                             andBackColor:[UIColor orangeColor]
-                                            andTextColor:[UIColor darkGrayColor]
-                                                andAlpha:0.5
+                                            andTextColor:[UIColor whiteColor]
+                                                andAlpha:0.8
                                              andTextFont:12
                                                andString:string];
     
@@ -162,8 +161,8 @@
     
     if (self = [super initWithFrame:frame]) {
         
-//        _showFrame = CGRectMake(frame.origin.x, frame.origin.y + frame.size.height, frame.size.width, frame.size.height);
-//        _dismissFrame = frame;
+        _showFrame = CGRectMake(frame.origin.x, frame.origin.y + frame.size.height, frame.size.width, frame.size.height);
+        _dismissFrame = frame;
         self.alpha = 0;
         
         _showTime = showTime;
