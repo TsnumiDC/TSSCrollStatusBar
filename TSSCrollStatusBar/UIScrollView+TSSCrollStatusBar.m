@@ -17,13 +17,9 @@ static const char TSSCrollStatusBarKey = '\2';
     
     if (ts_scrollStatusBar != self.ts_scrollStatusBar) {
         [self.ts_scrollStatusBar removeFromSuperview];
-//        [self insertSubview:ts_scrollStatusBar atIndex:0];
         [self.superview insertSubview:ts_scrollStatusBar atIndex:0];
         [self.superview setNeedsLayout];
-        
-        //[ts_scrollStatusBar adjustWithIndexY:self.frame.origin.y + 44];
-        NSLog(@"%@",NSStringFromCGRect(self.frame) );
-        
+                
         [self willChangeValueForKey:@"ts_scrollStatusBar"]; // KVO
         objc_setAssociatedObject(self, &TSSCrollStatusBarKey,
                                  ts_scrollStatusBar, OBJC_ASSOCIATION_ASSIGN);

@@ -21,11 +21,7 @@
     CGFloat _textFont;//文字大小
 
     NSString * _string;//文字内容
-    
-//    CGRect _dismissFrame;//消失位置
-//    CGRect _showFrame;//显示位置
-    
-//    BOOL _isShowing;//是否正在展示状态  初始化默认为NO, 在展示的时候变成YES, 展示结束后变成NO
+
 }
 
 @property (strong, nonatomic)UIView * animationBackView;//动画背景图
@@ -40,9 +36,7 @@
 - (void)adjustWithIndexY:(CGFloat)indexY{
     
     //调整Y
-    //_dismissFrame = CGRectMake(_dismissFrame.origin.x, _dismissFrame.origin.y + indexY, _dismissFrame.size.width, _dismissFrame.size.height);
-    //_showFrame = CGRectMake(_showFrame.origin.x, _showFrame.origin.y + indexY, _showFrame.size.width, _showFrame.size.height);
-    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y + indexY, self.frame.size.width, self.frame.size.height);
+    self.frame = CGRectMake(self.frame.origin.x,  indexY, self.frame.size.width, self.frame.size.height);
 }
 
 - (void)showWithString:(NSString *)string{
@@ -52,10 +46,6 @@
 }
 
 - (BOOL)configWithString:(NSString *)string{
-    
-//    if (_isShowing) {
-//        return NO;
-//    }
     
     _string = string;
     //计算位置 重新计算高度
@@ -67,9 +57,6 @@
         size=[string boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:dict context:nil].size;
         height = size.height + 13;
     }
-//    CGRect frame = CGRectMake(0, 0 - height, [UIScreen mainScreen].bounds.size.width, height);
-//    _showFrame = CGRectMake(frame.origin.x, frame.origin.y + frame.size.height, frame.size.width, frame.size.height);
-//    _dismissFrame = frame;
     
     self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, height);
     
@@ -84,13 +71,10 @@
 }
 
 - (void)showWithAuthHidden:(BOOL)autoHidden andAnimation:(BOOL) animation{
-    //展示
-//    if (_isShowing) {
-//        return;
-//    }
-//    _isShowing = YES;
+
     //停止所有动画
     [self.animationBackView.layer removeAllAnimations];
+    [self.layer removeAllAnimations];
     //初始化位置
     self.animationBackView.frame = CGRectMake(self.bounds.origin.x,  -self.bounds.size.height , self.bounds.size.width, self.bounds.size.height);
 
@@ -107,14 +91,22 @@
             
         } completion:^(BOOL finished) {
             
-            
             if (autoHidden && finished) {
 
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_stayTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [UIView animateWithDuration:3 animations:^{
+                    self.alpha = 0.99;
 
-                    [self dismissWithAnimation:YES];
+                } completion:^(BOOL finished) {
+                    
+                    if (finished) {
 
-                });
+                        [self dismissWithAnimation:YES];
+                    }else{
+                    }
+                }];
+
+            }else{
+
             }
             
         }];
@@ -135,18 +127,16 @@
             self.animationBackView.frame = CGRectMake(self.bounds.origin.x,  -self.bounds.size.height , self.bounds.size.width, self.bounds.size.height);
             self.alpha = 0;
         } completion:^(BOOL finished) {
-//            _isShowing = NO;
         }];
     }else{
         self.alpha = 0;
         self.animationBackView.frame = CGRectMake(self.bounds.origin.x,  -self.bounds.size.height , self.bounds.size.width, self.bounds.size.height);
-//        _isShowing = NO;
     }
 }
 
 #pragma mark - Init
 
-+ (instancetype)scrollStatusBarWithString:(NSString *)string{
++ (instancetype)scrollStatusBarWithString:(NSString *)string andIndexY:(CGFloat)indexY{
     
     //根据string计算高度
     CGFloat height = 0.0;
@@ -160,9 +150,9 @@
         height = size.height + 13;
     }
     
-    TSScrollStatusBar * bar = [[self alloc]initWithFrame:CGRectMake(0, 0 , [UIScreen mainScreen].bounds.size.width, height)
+    TSScrollStatusBar * bar = [[self alloc]initWithFrame:CGRectMake(0, indexY , [UIScreen mainScreen].bounds.size.width, height)
                                              andShowTime:0.8
-                                             andStayTime:2
+                                             andStayTime:2.0
                                           andDismissTime:0.8
                                             andBackColor:[UIColor orangeColor]
                                             andTextColor:[UIColor whiteColor]
@@ -184,9 +174,7 @@
                     andString:(NSString *)string{
     
     if (self = [super initWithFrame:frame]) {
-//
-//        _showFrame = CGRectMake(frame.origin.x, frame.origin.y + frame.size.height, frame.size.width, frame.size.height);
-//        _dismissFrame = frame;
+
         self.alpha = 0;
         self.clipsToBounds = YES;
         

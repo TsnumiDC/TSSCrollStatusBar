@@ -10,7 +10,7 @@
 
 @interface TSScrollStatusBar : UIView
 
-//调整Y坐标 这个Y坐标
+//调整Y坐标 这个Y坐标一般是坐标轴得位置
 - (void)adjustWithIndexY:(CGFloat)indexY;
 /**
  展示
@@ -48,7 +48,7 @@
  @param string 内容
  @return 返回创建好的控件
  */
-+ (instancetype)scrollStatusBarWithString:(NSString *)string;
++ (instancetype)scrollStatusBarWithString:(NSString *)string andIndexY:(CGFloat)indexY;
 
 /**
  万能初始化方法

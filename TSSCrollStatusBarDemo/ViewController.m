@@ -25,8 +25,8 @@
     
     [self layoutSubView];
     
-    self.tableView.ts_scrollStatusBar = [TSScrollStatusBar scrollStatusBarWithString:@"这是一条提示信息这是一条提示信息这是一条提示信息这是一条提示信息这是一条提示信息"];
-    [self.tableView.ts_scrollStatusBar adjustWithIndexY:64];
+    self.tableView.ts_scrollStatusBar = [TSScrollStatusBar scrollStatusBarWithString:@"这是一条提示信息这是一条提示信息这是一条提示信息这是一条提示信息这是一条提示信息" andIndexY:64];
+    
     // Do any additional setup after loading the view, typically from a nib.
 }
 
