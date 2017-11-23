@@ -10,6 +10,8 @@
 
 @interface TSScrollStatusBar : UIView
 
+//调整Y坐标 这个Y坐标
+- (void)adjustWithIndexY:(CGFloat)indexY;
 /**
  展示
  */
